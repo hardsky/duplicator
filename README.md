@@ -48,9 +48,13 @@ env DP_DB_USER=postgres DP_DB_PSW=<password_for_db_user> DP_DB_DATABASE=duplicat
 (see readme in migrations/ dir.)
 
 3. run service with command
-`env DP_ADDR=:8080 DP_DB_USER=postgres DP_DB_PSW=<password_for_db_user> DP_DB_DATABASE=duplicator DP_DB_ADDR=:5432 go run main.go`  
-or with debug logs  
-`env DP_DEBUG=1 DP_ADDR=:8080 DP_DB_USER=postgres DP_DB_PSW=<password_for_db_user> DP_DB_DATABASE=duplicator DP_DB_ADDR=:5432 go run main.go`
+```
+env DP_ADDR=:8080 DP_DB_USER=postgres DP_DB_PSW=<password_for_db_user> DP_DB_DATABASE=duplicator DP_DB_ADDR=:5432 go run main.go
+```
+or with debug logs
+```
+env DP_DEBUG=1 DP_ADDR=:8080 DP_DB_USER=postgres DP_DB_PSW=<password_for_db_user> DP_DB_DATABASE=duplicator DP_DB_ADDR=:5432 go run main.go
+```
 
 4. apply sql scripts with test data from */generators* directory (if predefined 1M records are not enough it can be changed to other number in sql scripts.)
 
