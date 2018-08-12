@@ -1,14 +1,19 @@
 package db
 
-import "github.com/go-pg/pg"
+import (
+	"os"
+
+	"github.com/go-pg/pg"
+)
 
 var con *pg.DB
 
 func init() {
 	con = pg.Connect(&pg.Options{
-		User:     "postgres",
-		Password: "jQnas3wed",
-		Database: "duplicator",
+		Addr:     os.Getenv("DP_DB_ADDR"),
+		User:     os.Getenv("DP_DB_USER"),
+		Password: os.Getenv("DP_DB_PSW"),
+		Database: os.Getenv("DP_DB_DATABASE"),
 	})
 }
 

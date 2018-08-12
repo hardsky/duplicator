@@ -9,3 +9,12 @@ run
 `go run *.go --help` - to read usage details.
 
 We use *dep* as dependency manager.
+
+env variables:
+
+- DP_DEBUG
+- DP_ADDR
+- DP_DB_ADDR
+- DP_DB_USER
+- DP_DB_PSW
+- DP_DB_DATABASE

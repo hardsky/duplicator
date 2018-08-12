@@ -1,6 +1,6 @@
 # Duplicator
 
-Duplicator is a simple service, that allow to find user duplicates in connection log.
+Duplicator is a toy service, that allow to find user duplicates in connection log.
 
 For example we have following records in table conn_log
 
@@ -27,3 +27,13 @@ So following 4 records indicate that users with ids: 1 and 2 are duplicates:
        2 | 127.0.0.2 | 2018-01-01 17:54:59
 
 We use *dep* as dependency manager.
+
+
+env variables:
+
+- DP_DEBUG
+- DP_ADDR
+- DP_DB_ADDR
+- DP_DB_USER
+- DP_DB_PSW
+- DP_DB_DATABASE
