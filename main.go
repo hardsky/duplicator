@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -25,7 +26,7 @@ func main() {
 		Handler:      r, // Pass our instance of gorilla/mux in.
 	}
 
-	srv.ListenAndServe()
+	log.Fatal(srv.ListenAndServe())
 }
 
 type DuplicateResponse struct {

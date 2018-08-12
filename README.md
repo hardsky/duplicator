@@ -25,3 +25,5 @@ So following 4 records indicate that users with ids: 1 and 2 are duplicates:
        2 | 127.0.0.1 | 2018-01-01 17:52:59
        1 | 127.0.0.2 | 2018-01-01 17:53:59
        2 | 127.0.0.2 | 2018-01-01 17:54:59
+
+We use *dep* as dependency manager.

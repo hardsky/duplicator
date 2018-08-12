@@ -8,3 +8,4 @@ use command:
 run  
 `go run *.go --help` - to read usage details.
 
+We use *dep* as dependency manager.
