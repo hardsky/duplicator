@@ -28,12 +28,26 @@ So following 4 records indicate that users with ids: 1 and 2 are duplicates:
 
 We use *dep* as dependency manager.
 
-
 env variables:
 
-- DP_DEBUG
-- DP_ADDR
-- DP_DB_ADDR
-- DP_DB_USER
-- DP_DB_PSW
-- DP_DB_DATABASE
+- DP_DEBUG - turn on debvug logs
+- DP_ADDR - service address (for example localhost:8080)
+- DP_DB_ADDR - db address (for example :5432)
+- DP_DB_USER - db user
+- DP_DB_PSW - db user password
+- DP_DB_DATABASE - service database
+
+How to use:
+1. create database for application (let's name it 'duplicator')
+2. apply migrations from */migrations* directory, for example  
+```
+cd migrations/
+env DP_DB_USER=postgres DP_DB_PSW=<password_for_db_user> DP_DB_DATABASE=duplicator DP_DB_ADDR=:5432 go run *.go up
+```
+(see readme in migrations/ dir.)
+3. run service with command  
+`env DP_ADDR=:8080 DP_DB_USER=postgres DP_DB_PSW=<password_for_db_user> DP_DB_DATABASE=duplicator DP_DB_ADDR=:5432 go run main.go`
+or with debug logs  
+`env DP_DEBUG=1 DP_ADDR=:8080 DP_DB_USER=postgres DP_DB_PSW=<password_for_db_user> DP_DB_DATABASE=duplicator DP_DB_ADDR=:5432 go run main.go`
+3. apply sql scripts with test data from */generators* directory (if predefined 1M records are not enough it can be changed to other number in sql scripts.)
+4. run http request http://localhost:8080/duplicator/duplicate/{userId}/{userId} where ids are integers.
