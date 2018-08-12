@@ -1,34 +1,39 @@
 package api
 
 import (
-	"duplicator/db"
-	"duplicator/redis"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 )
 
 type duplicateResponse struct {
 	Duplicate bool `json:"duplicate"`
 }
 
-func handleDuplicate(w http.ResponseWriter, r *http.Request) {
+// Implement /duplicate/{userId1}/{userId2}
+// Determines when two users are duplicates.
+func (p *API) handleDuplicate(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	user1 := vars["userId1"]
 	user2 := vars["userId2"]
 
-	if redis.IsDuplicate(user1, user2) {
-		fmt.Println("cache matched")
+	ctxLog := log.WithFields(log.Fields{
+		"userID1": user1,
+		"userID2": user2,
+	})
+
+	if p.c.IsDuplicate(user1, user2) {
+		ctxLog.Debug("cache matched")
 		writeTrue(w)
 		return
 	}
-	fmt.Println("cache missed")
+	ctxLog.Debug("cache missed")
 
-	res := &duplicateResponse{db.IsDuplicate(user1, user2)}
+	res := &duplicateResponse{p.d.IsDuplicate(user1, user2)}
 	if res.Duplicate {
-		redis.Duplicate(user1, user2)
+		p.c.Duplicate(user1, user2)
 	}
 
 	b, _ := json.Marshal(res)

@@ -1,25 +1,37 @@
 package db
 
 import (
-	"os"
-
 	"github.com/go-pg/pg"
 )
 
-var con *pg.DB
-
-func init() {
-	con = pg.Connect(&pg.Options{
-		Addr:     os.Getenv("DP_DB_ADDR"),
-		User:     os.Getenv("DP_DB_USER"),
-		Password: os.Getenv("DP_DB_PSW"),
-		Database: os.Getenv("DP_DB_DATABASE"),
-	})
+// DB struct contains methods on top of database.
+type DB struct {
+	con *pg.DB
 }
 
-func IsDuplicate(userID1, userID2 string) bool {
+// Opts contains options for database connection.
+type Opts struct {
+	Addr     string
+	User     string
+	Password string
+	Database string
+}
+
+// Connect eshablishes connection to database,
+// returns DB struct with methods on top of database.
+func Connect(opt *Opts) *DB {
+	return &DB{pg.Connect(&pg.Options{
+		Addr:     opt.Addr,
+		User:     opt.User,
+		Password: opt.Password,
+		Database: opt.Database,
+	})}
+}
+
+// IsDuplicate determines when two users are duplicates.
+func (p *DB) IsDuplicate(userID1, userID2 string) bool {
 	var count int
-	con.QueryOne(pg.Scan(&count), `
+	p.con.QueryOne(pg.Scan(&count), `
 SELECT COUNT (1) FROM
 (SELECT ip_addr FROM conn_log WHERE user_id = ?) c1
 INNER JOIN

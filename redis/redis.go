@@ -6,23 +6,38 @@ import (
 	re "github.com/go-redis/redis"
 )
 
-var rd *re.Client
+// Opts contains settings for redis.
+type Opts struct {
+	Addr string
+}
 
-func init() {
-	rd = re.NewClient(&re.Options{
-		Addr:     "localhost:6379",
+// NewCache returns struct redis connection.
+func NewCache(opt *Opts) *Cache {
+	c := &Cache{re.NewClient(&re.Options{
+		Addr:     opt.Addr,
 		Password: "", // no password set
 		DB:       0,  // use default DB
-	})
+	})}
+	c.rd.Ping() //establish connection
+
+	return c
 }
 
-func IsDuplicate(userID1, userID2 string) bool {
-	return "true" == rd.Get(key(userID1, userID2)).Val()
+// Cache contains methods on top of redis cache.
+type Cache struct {
+	rd *re.Client
 }
 
-func Duplicate(userID1, userID2 string) {
-	rd.Set(key(userID1, userID2), "true", 0)
-	rd.Set(key(userID2, userID1), "true", 0)
+// IsDuplicate checks if we remembered previously in cache
+// that two users are duplicate.
+func (p *Cache) IsDuplicate(userID1, userID2 string) bool {
+	return "true" == p.rd.Get(key(userID1, userID2)).Val()
+}
+
+// Duplicate remebers to redis, that two users are actually duplicates.
+func (p *Cache) Duplicate(userID1, userID2 string) {
+	p.rd.Set(key(userID1, userID2), "true", 0)
+	p.rd.Set(key(userID2, userID1), "true", 0)
 }
 
 func key(userID1, userID2 string) string {
