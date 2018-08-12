@@ -1,12 +1,13 @@
 package main
 
 import (
-	"duplicator/api"
-	"duplicator/db"
-	"duplicator/redis"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/hardsky/duplicator/api"
+	"github.com/hardsky/duplicator/db"
+	"github.com/hardsky/duplicator/redis"
 
 	log "github.com/sirupsen/logrus"
 )

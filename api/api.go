@@ -1,9 +1,10 @@
 package api
 
 import (
-	"duplicator/db"
-	"duplicator/redis"
 	"net/http"
+
+	"github.com/hardsky/duplicator/db"
+	"github.com/hardsky/duplicator/redis"
 
 	"github.com/gorilla/mux"
 )
@@ -24,7 +25,7 @@ func NewAPI(opt *Opts) *API {
 	}
 
 	//service prefix
-	s := router.PathPrefix("/duplicator/").Subrouter()
+	s := router.PathPrefix("/github.com/hardsky/duplicator/").Subrouter()
 
 	//service routes
 	s.HandleFunc("/duplicate/{userId1:[0-9]+}/{userId2:[0-9]+}", res.handleDuplicate).Methods("GET")
