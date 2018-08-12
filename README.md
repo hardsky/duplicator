@@ -5,7 +5,7 @@ Duplicator is a toy service, that allow to find user duplicates in connection lo
 For example we have following records in table conn_log
 
  user_id |  ip_addr  |         ts
----------|-----------|-------------------
+--------- | ----------- | -------------------
        1 | 127.0.0.1 | 2018-01-01 17:51:59
        2 | 127.0.0.1 | 2018-01-01 17:52:59
        1 | 127.0.0.2 | 2018-01-01 17:53:59
@@ -19,8 +19,8 @@ For example we have following records in table conn_log
 We consider, that two user_id are duplicates, if they at least two times matched by ip_addr.
 So following 4 records indicate that users with ids: 1 and 2 are duplicates:
 
- user_id |  ip_addr  |         ts
----------|-----------|-------------------
+user_id | ip_addr  | ts
+--- | --- | ---
        1 | 127.0.0.1 | 2018-01-01 17:51:59
        2 | 127.0.0.1 | 2018-01-01 17:52:59
        1 | 127.0.0.2 | 2018-01-01 17:53:59
